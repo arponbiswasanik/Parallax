@@ -1,5 +1,6 @@
 from fastapi import FastAPI
 from app.api.gateway import router
+from app.api.llm_gateway import router as llm_router
 from app.core.database import init_db
 from contextlib import asynccontextmanager
 
@@ -17,6 +18,7 @@ app = FastAPI(
 )
 
 app.include_router(router, prefix="/api/v1")
+app.include_router(llm_router, prefix="/api/v1")
 
 @app.get("/health")
 async def health():

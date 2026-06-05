@@ -1,6 +1,6 @@
 from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession
 from sqlalchemy.orm import sessionmaker, DeclarativeBase
-from sqlalchemy import Column, Integer, Float, DateTime, String
+from sqlalchemy import Column, Integer, Float, DateTime, String, Text
 from datetime import datetime
 from app.core.config import settings
 
@@ -27,6 +27,20 @@ class DriftLog(Base):
     ks_statistic = Column(Float)
     primary_prediction = Column(Integer)
     shadow_prediction = Column(Integer)
+    is_drifted = Column(String)
+
+class LLMDriftLog(Base):
+    __tablename__ = "llm_drift_logs"
+
+    id = Column(Integer, primary_key=True, index=True)
+    timestamp = Column(DateTime, default=datetime.utcnow)
+    prompt = Column(Text)
+    primary_model = Column(String)
+    shadow_model = Column(String)
+    primary_response = Column(Text)
+    shadow_response = Column(Text)
+    cosine_similarity = Column(Float)
+    semantic_drift_score = Column(Float)
     is_drifted = Column(String)
 
 async def init_db():
