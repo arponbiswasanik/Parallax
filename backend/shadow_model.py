@@ -1,14 +1,26 @@
 import uvicorn
 from fastapi import FastAPI
 import numpy as np
+import joblib
 
-app = FastAPI(title="Shadow Model")
+app = FastAPI(title="Shadow Model - Logistic Regression")
+
+model = joblib.load("models/shadow_model.joblib")
+scaler = joblib.load("models/scaler.joblib")
 
 @app.post("/predict")
 async def predict(payload: dict):
-    probs = np.random.dirichlet(np.array([0.5, 2.0, 0.5])).tolist()
+    features = np.array([[
+        payload["amount"],
+        payload["oldbalanceOrg"],
+        payload["newbalanceOrig"],
+        payload["oldbalanceDest"],
+        payload["newbalanceDest"]
+    ]])
+    features_scaled = scaler.transform(features)
+    probs = model.predict_proba(features_scaled)[0].tolist()
     return {
-        "model": "shadow-v2",
+        "model": "shadow-v2-logistic-regression",
         "probabilities": probs,
         "prediction": int(np.argmax(probs))
     }
