@@ -8,7 +8,11 @@ DATABASE_URL = settings.DATABASE_URL.replace(
     "postgresql://", "postgresql+asyncpg://"
 )
 
-engine = create_async_engine(DATABASE_URL, echo=False)
+engine = create_async_engine(
+    DATABASE_URL, 
+    echo=False,
+    connect_args={"statement_cache_size": 0}
+)
 
 AsyncSessionLocal = sessionmaker(
     engine, class_=AsyncSession, expire_on_commit=False
@@ -41,6 +45,23 @@ class LLMDriftLog(Base):
     shadow_response = Column(Text)
     cosine_similarity = Column(Float)
     semantic_drift_score = Column(Float)
+    is_drifted = Column(String)
+
+class RegressionDriftLog(Base):
+    __tablename__ = "regression_drift_logs"
+
+    id = Column(Integer, primary_key=True, index=True)
+    timestamp = Column(DateTime, default=datetime.utcnow)
+    hour = Column(Integer)
+    day_of_week = Column(Integer)
+    month = Column(Integer)
+    day_of_year = Column(Integer)
+    is_weekend = Column(Integer)
+    primary_prediction = Column(Float)
+    shadow_prediction = Column(Float)
+    absolute_difference = Column(Float)
+    percentage_difference = Column(Float)
+    wasserstein_distance = Column(Float)
     is_drifted = Column(String)
 
 async def init_db():
