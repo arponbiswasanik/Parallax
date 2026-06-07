@@ -6,10 +6,10 @@ import { usePathname } from 'next/navigation'
 import { useTheme } from '../context/ThemeContext'
 
 const navItems = [
-  { href: '/', icon: '⬡', label: 'Overview' },
-  { href: '/classification', icon: '◈', label: 'Classification' },
-  { href: '/llm', icon: '◎', label: 'LLM Drift' },
-  { href: '/regression', icon: '◇', label: 'Regression' },
+  { href: '/dashboard', icon: '⬡', label: 'Overview' },
+  { href: '/dashboard/classification', icon: '◈', label: 'Classification' },
+  { href: '/dashboard/llm', icon: '◎', label: 'LLM Drift' },
+  { href: '/dashboard/regression', icon: '◇', label: 'Regression' },
 ]
 
 export default function Sidebar() {
