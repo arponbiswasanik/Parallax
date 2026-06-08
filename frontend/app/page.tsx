@@ -419,7 +419,8 @@ function FeatureSection({ feature, index, isLast }: { feature: typeof features[0
           display: 'flex',
           flexDirection: isEven ? 'row' : 'row-reverse',
           alignItems: 'center',
-          justifyContent: 'space-between',
+          justifyContent: 'center',
+          gap: '500px',
           width: '100%',
           maxWidth: '1200px',
           zIndex: 2,
@@ -635,16 +636,14 @@ export default function Landing() {
         <div style={{ position: 'relative', zIndex: 1, maxWidth: '800px', display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center' }}>
           <DriftBadge style={fadeUp(0, heroVisible)} />
           <h1 style={{ ...fadeUp(150, heroVisible), fontSize: '64px', fontWeight: 600, letterSpacing: '-0.04em', lineHeight: 1.05, marginBottom: '24px' }}>
-            Shadow deployment.<br /><span style={{ color: '#d1d5db' }}>Done right.</span>
+            Shadow deployment.<br /><span style={{ color: '#31b4ec' }}>Done right.</span>
           </h1>
           <p style={{ ...fadeUp(300, heroVisible), fontSize: '16px', color: '#e5e7eb', lineHeight: 1.8, maxWidth: '520px', fontWeight: 300, marginBottom: '48px' }}>
             Parallax is a model-agnostic framework that silently routes live traffic to candidate models, detects concept drift in real time, and keeps your production system stable.
           </p>
           <div style={{ ...fadeUp(450, heroVisible), display: 'flex', gap: '16px', alignItems: 'center' }}>
-            <Link href="/auth/signup" style={{ fontSize: '14px', color: '#06080c', textDecoration: 'none', fontWeight: 500, background: '#f0f0ee', padding: '12px 28px', borderRadius: '8px', transition: 'opacity 0.2s ease' }} onMouseEnter={(e) => ((e.currentTarget as HTMLAnchorElement).style.opacity = '0.85')} onMouseLeave={(e) => ((e.currentTarget as HTMLAnchorElement).style.opacity = '1')}>
-              Get started
-            </Link>
-            <Link href="/dashboard" style={{ fontSize: '14px', color: '#e5e7eb', textDecoration: 'none', padding: '12px 28px', borderRadius: '8px', border: '1px solid rgba(255,255,255,0.15)', transition: 'all 0.2s ease' }}
+
+            <Link href="/auth/signin" style={{ fontSize: '14px', color: '#e5e7eb', textDecoration: 'none', padding: '12px 28px', borderRadius: '8px', border: '1px solid rgba(255,255,255,0.15)', transition: 'all 0.2s ease' }}
               onMouseEnter={(e) => {
                 e.currentTarget.style.borderColor = 'rgba(255,255,255,0.3)'
                 e.currentTarget.style.color = '#ffffff'
@@ -655,7 +654,7 @@ export default function Landing() {
                 e.currentTarget.style.color = '#e5e7eb'
                 e.currentTarget.style.backgroundColor = 'transparent'
               }}>
-              View dashboard →
+              View dashboard
             </Link>
           </div>
         </div>

@@ -2,8 +2,13 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
-import { usePathname } from 'next/navigation'
-import { useTheme } from '../context/ThemeContext'
+import { usePathname, useRouter } from 'next/navigation'
+import { createClient } from '@supabase/supabase-js'
+
+const supabase = createClient(
+  process.env.NEXT_PUBLIC_SUPABASE_URL!,
+  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+)
 
 const navItems = [
   { href: '/dashboard', icon: '⬡', label: 'Overview' },
@@ -15,14 +20,18 @@ const navItems = [
 export default function Sidebar() {
   const [expanded, setExpanded] = useState(false)
   const pathname = usePathname()
-  const { theme, toggleTheme } = useTheme()
+  const router = useRouter()
 
-  const isDark = theme === 'dark'
-  const bg = isDark ? '#0d0f16' : '#ffffff'
-  const border = isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.08)'
-  const textMuted = isDark ? '#4b5563' : '#9ca3af'
-  const textActive = isDark ? '#f9fafb' : '#111827'
-  const activeBg = isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.05)'
+  const bg = '#0d0f16'
+  const border = 'rgba(255,255,255,0.06)'
+  const textMuted = '#ffffff'
+  const textActive = '#f9fafb'
+  const activeBg = 'rgba(255,255,255,0.06)'
+
+  async function handleSignOut() {
+    await supabase.auth.signOut()
+    router.push('/')
+  }
 
   return (
     <aside
@@ -53,19 +62,19 @@ export default function Sidebar() {
         gap: '12px',
         whiteSpace: 'nowrap',
       }}>
-        <div style={{
-          width: '24px',
-          height: '24px',
-          borderRadius: '6px',
-          background: 'linear-gradient(135deg, #818cf8, #a78bfa)',
-          flexShrink: 0,
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          fontSize: '12px',
-          color: '#fff',
-          fontWeight: 700,
-        }}>P</div>
+        <svg width="24" height="24" viewBox="0 0 64 64" fill="none" style={{ flexShrink: 0 }}>
+          <g transform="rotate(30 32 32)">
+            <rect x="18" y="10" width="12" height="44" rx="6" fill="url(#sidebarGrad)" />
+            <rect x="34" y="10" width="12" height="44" rx="6" fill="#ffffff" fillOpacity="0.04" stroke="#60a5fa" strokeWidth="1.5" strokeDasharray="3 3" opacity="0.8" />
+            <circle cx="32" cy="32" r="4.5" fill="#03df53" stroke="#000000" strokeWidth="2" />
+          </g>
+          <defs>
+            <linearGradient id="sidebarGrad" x1="18" y1="10" x2="30" y2="54" gradientUnits="userSpaceOnUse">
+              <stop stopColor="#818cf8" />
+              <stop offset="1" stopColor="#a78bfa" />
+            </linearGradient>
+          </defs>
+        </svg>
         <span style={{
           fontSize: '15px',
           fontWeight: 600,
@@ -114,10 +123,10 @@ export default function Sidebar() {
         })}
       </nav>
 
-      {/* Theme Toggle */}
+      {/* Sign Out */}
       <div style={{ padding: '0 8px' }}>
         <button
-          onClick={toggleTheme}
+          onClick={handleSignOut}
           style={{
             display: 'flex',
             alignItems: 'center',
@@ -130,6 +139,8 @@ export default function Sidebar() {
             width: '100%',
             whiteSpace: 'nowrap',
           }}
+          onMouseEnter={e => (e.currentTarget as HTMLButtonElement).style.background = 'rgba(255,255,255,0.04)'}
+          onMouseLeave={e => (e.currentTarget as HTMLButtonElement).style.background = 'transparent'}
         >
           <span style={{
             fontSize: '16px',
@@ -137,13 +148,13 @@ export default function Sidebar() {
             flexShrink: 0,
             width: '24px',
             textAlign: 'center',
-          }}>{isDark ? '☀' : '☾'}</span>
+          }}>→</span>
           <span style={{
             fontSize: '13px',
             color: textMuted,
             opacity: expanded ? 1 : 0,
             transition: 'opacity 0.2s ease',
-          }}>{isDark ? 'Light mode' : 'Dark mode'}</span>
+          }}>Sign out</span>
         </button>
       </div>
     </aside>

@@ -2,17 +2,14 @@
 
 import { useEffect, useState } from 'react'
 import { supabase } from '../../lib/supabase'
-import { useTheme } from '../../context/ThemeContext'
 import Link from 'next/link'
 
 export default function Overview() {
-  const { theme } = useTheme()
-  const isDark = theme === 'dark'
-  const bg = isDark ? '#080a0f' : '#f9f9f7'
-  const textPrimary = isDark ? '#f0f0ee' : '#0f0f0d'
-  const textMuted = isDark ? '#4b5563' : '#9ca3af'
-  const textSub = isDark ? '#374151' : '#d1d5db'
-  const border = isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.07)'
+  const bg = '#080a0f'
+  const textPrimary = '#f0f0ee'
+  const textMuted = '#9ca3af'
+  const textSub = '#6b7280'
+  const border = 'rgba(255,255,255,0.1)'
 
   const [classLast, setClassLast] = useState<any>(null)
   const [llmLast, setLlmLast] = useState<any>(null)
@@ -32,7 +29,7 @@ export default function Overview() {
 
   const rows = [
     {
-      href: '/classification',
+      href: '/dashboard/classification',
       mode: 'Classification',
       desc: 'Random Forest vs Logistic Regression',
       dataset: 'PaySim MFS Dataset',
@@ -42,7 +39,7 @@ export default function Overview() {
       color: '#818cf8',
     },
     {
-      href: '/llm',
+      href: '/dashboard/llm',
       mode: 'LLM Semantic',
       desc: 'LLaMA 3.1 8B vs LLaMA 3.3 70B',
       dataset: 'TF-IDF Cosine Similarity',
@@ -52,7 +49,7 @@ export default function Overview() {
       color: '#f43f5e',
     },
     {
-      href: '/regression',
+      href: '/dashboard/regression',
       mode: 'Regression',
       desc: 'Random Forest vs Linear Regression',
       dataset: 'Energy Consumption',
@@ -80,7 +77,6 @@ export default function Overview() {
 
       {/* Table */}
       <div style={{ borderTop: `1px solid ${border}` }}>
-        {/* Table Header */}
         <div style={{
           display: 'grid',
           gridTemplateColumns: '2fr 2fr 1fr 1fr 80px',
@@ -92,7 +88,6 @@ export default function Overview() {
           ))}
         </div>
 
-        {/* Rows */}
         {rows.map(row => (
           <Link key={row.href} href={row.href} style={{ textDecoration: 'none' }}>
             <div
@@ -128,7 +123,7 @@ export default function Overview() {
                   fontWeight: 500,
                   background: row.status === 'YES' ? 'rgba(239,68,68,0.08)' : row.status === 'NO' ? 'rgba(34,197,94,0.08)' : 'transparent',
                   color: row.status === 'YES' ? '#ef4444' : row.status === 'NO' ? '#22c55e' : textMuted,
-                  border: `1px solid ${row.status === 'YES' ? 'rgba(239,68,68,0.15)' : row.status === 'NO' ? 'rgba(34,197,94,0.15)' : border}`,
+                  border: `1px solid ${row.status === 'YES' ? 'rgba(239,68,68,0.2)' : row.status === 'NO' ? 'rgba(34,197,94,0.2)' : border}`,
                 }}>
                   {row.status === 'YES' ? 'Drifted' : row.status === 'NO' ? 'Stable' : '—'}
                 </span>
@@ -140,7 +135,6 @@ export default function Overview() {
 
       {/* Footer */}
       <div style={{ marginTop: '80px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-        <p style={{ fontSize: '12px', color: textSub, fontWeight: 300 }}>FastAPI · Scikit-learn · Groq · Supabase</p>
         <p style={{ fontSize: '12px', color: textSub, fontWeight: 300 }}>v0.1.0</p>
       </div>
     </div>
