@@ -524,7 +524,6 @@ function FeatureSection({ feature, index, isLast }: { feature: typeof features[0
           }}
         >
           <span style={{ fontSize: '12px', color: '#9ca3af' }}>Parallax · v0.1.0</span>
-          <span style={{ fontSize: '12px', color: '#9ca3af' }}>MIT License</span>
         </div>
       )}
     </section>

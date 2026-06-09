@@ -99,8 +99,8 @@ export default function Overview() {
                 cursor: 'pointer',
                 transition: 'opacity 0.15s ease',
               }}
-              onMouseEnter={e => (e.currentTarget as HTMLDivElement).style.opacity = '0.6'}
-              onMouseLeave={e => (e.currentTarget as HTMLDivElement).style.opacity = '1'}
+              onMouseEnter={e => (e.currentTarget as HTMLDivElement).style.background = 'rgba(255,255,255,0.03)'}
+              onMouseLeave={e => (e.currentTarget as HTMLDivElement).style.background = 'transparent'}
             >
               <div>
                 <p style={{ fontSize: '14px', fontWeight: 500, color: textPrimary, marginBottom: '4px' }}>{row.mode}</p>
